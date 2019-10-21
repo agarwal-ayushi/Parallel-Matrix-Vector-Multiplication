@@ -1,20 +1,20 @@
 
 OMP_NUM_THREADS =1
 The result of Serial and Parallel Algorithm are the same. Good Job! 
- rows = 1000	cols = 1000	Serial Time = 0.002840s	OpenMP Time = 0.002841s	Speedup = 0.999714
+ rows = 1000	cols = 1000	Serial Time = 0.002437s	OpenMP Time = 0.002349s	Speedup = 1.037716
 
 OMP_NUM_THREADS =2
 The result of Serial and Parallel Algorithm are the same. Good Job! 
- rows = 1000	cols = 1000	Serial Time = 0.002913s	OpenMP Time = 0.001431s	Speedup = 2.035581
+ rows = 1000	cols = 1000	Serial Time = 0.002438s	OpenMP Time = 0.001211s	Speedup = 2.013148
 
 OMP_NUM_THREADS =3
 The result of Serial and Parallel Algorithm are the same. Good Job! 
- rows = 1000	cols = 1000	Serial Time = 0.002823s	OpenMP Time = 0.001826s	Speedup = 1.545814
+ rows = 1000	cols = 1000	Serial Time = 0.002362s	OpenMP Time = 0.000821s	Speedup = 2.877130
 
 OMP_NUM_THREADS =4
 The result of Serial and Parallel Algorithm are the same. Good Job! 
- rows = 1000	cols = 1000	Serial Time = 0.002798s	OpenMP Time = 0.001403s	Speedup = 1.993830
+ rows = 1000	cols = 1000	Serial Time = 0.002392s	OpenMP Time = 0.000627s	Speedup = 3.813038
 
 OMP_NUM_THREADS =8
 The result of Serial and Parallel Algorithm are the same. Good Job! 
- rows = 1000	cols = 1000	Serial Time = 0.002845s	OpenMP Time = 0.001608s	Speedup = 1.769292
+ rows = 1000	cols = 1000	Serial Time = 0.002422s	OpenMP Time = 0.000610s	Speedup = 3.967976

@@ -1,0 +1,30 @@
+
+NP = 1
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000	cols = 10000	Serial Time = 0.242275s	OpenMP Time = 0.329761s	Speedup = 0.734697
+
+NP =2
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000	cols = 10000	Serial Time = 0.244710s	OpenMP Time = 0.215688s	Speedup = 1.134554
+
+NP =3
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000	cols = 10000	Serial Time = 0.240506s	OpenMP Time = 0.173072s	Speedup = 1.389627
+
+NP =4
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000	cols = 10000	Serial Time = 0.244411s	OpenMP Time = 0.155537s	Speedup = 1.571397
+
+NP =8
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000	cols = 10000	Serial Time = 0.252724s	OpenMP Time = 0.187116s	Speedup = 1.350626
+
+NP =16
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000	cols = 10000	Serial Time = 0.258628s	OpenMP Time = 0.203120s	Speedup = 1.273276

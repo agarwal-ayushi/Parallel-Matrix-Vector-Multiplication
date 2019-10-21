@@ -1,0 +1,172 @@
+Matrix Size = 10000 x 10000
+Vector Size = 10000 x 1
+Row-Wise Striped Matrix-Vector Multiplication with OpenMP
+
+
+NP = 1
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.236734s
+OpenMP Time = 0.322294s
+Speedup = 0.734528
+
+NP =2
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.242679s
+OpenMP Time = 0.207991s
+Speedup = 1.166779
+
+NP =3
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.243874s
+OpenMP Time = 0.172023s
+Speedup = 1.417679
+
+NP =4
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.243901s
+OpenMP Time = 0.155612s
+Speedup = 1.567370
+
+NP =8
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.253671s
+OpenMP Time = 0.179716s
+Speedup = 1.411516
+
+NP =16
+Row-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.261524s
+OpenMP Time = 0.204349s
+Speedup = 1.279789
+
+Column-Wise Striped Matrix-Vector Multiplication with OpenMP
+
+
+NP = 1
+Column-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.238931s
+OpenMP Time = 0.650674s
+Speedup = 0.367205
+
+NP =2
+Column-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.245965s
+OpenMP Time = 0.487306s
+Speedup = 0.504744
+
+NP =3
+Column-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.253222s
+OpenMP Time = 0.427156s
+Speedup = 0.592809
+
+NP =4
+Column-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.247845s
+OpenMP Time = 0.411796s
+Speedup = 0.601863
+
+NP =8
+Column-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.254423s
+OpenMP Time = 0.754777s
+Speedup = 0.337083
+
+NP =16
+Column-wise matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.263407s
+OpenMP Time = 2.299553s
+Speedup = 0.114547
+
+Checkerboard Matrix-Vector Multiplication with OpenMP
+
+
+NP =1
+Checkerboard matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.244968s
+OpenMP Time = 0.624983s
+Speedup = 0.391959
+
+NP =2
+Checkerboard matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.243542s
+OpenMP Time = 0.466357s
+Speedup = 0.522223
+
+NP =3
+Checkerboard matrix vector multiplication
+Results of parallel and Serial algorithm are not identical. Please check code
+rows = 10000
+cols = 10000
+Serial Time = 0.243006s
+OpenMP Time = 0.409178s
+Speedup = 0.593888
+
+NP =4
+Checkerboard matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.243141s
+OpenMP Time = 0.401377s
+Speedup = 0.605768
+
+NP =8
+Checkerboard matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.250394s
+OpenMP Time = 0.554681s
+Speedup = 0.451420
+
+NP =16
+Checkerboard matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job!
+ rows = 10000
+cols = 10000
+Serial Time = 0.262515s
+OpenMP Time = 1.068141s
+Speedup = 0.245768

@@ -133,7 +133,7 @@ int main(int argc, char* argv[]){
 
 	//speedup Serial vs OpenMP
 	speedup = diff_serial/average;
-	printf("rows = %d\tcols = %d\tSerial Time = %fs\tOpenMP Time = %fs\tSpeedup = %f\n", rows, cols, diff_serial, average, speedup);
+	printf("rows = %d\ncols = %d\nSerial Time = %f\nOpenMP Time = %f\nSpeedup = %f\n", rows, cols, diff_serial, average, speedup);
 	//printf("%f\n", diff_parallel);
 	processTerminate(matrix, vector, result);
   return 0;

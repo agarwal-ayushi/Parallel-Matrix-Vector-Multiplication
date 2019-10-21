@@ -273,7 +273,7 @@ int main(int argc, char* argv[]){
 	if (gridId == 0) testResult(matrix, vector, result, rows, cols, diff_serial);
 	if (gridId == 0) {
 		speedup = diff_serial/average;
-		printf("rows = %d\tcols = %d\tSerial Time = %fs\tOpenMP Time = %fs\tSpeedup = %f\n", rows, cols, diff_serial, average, speedup);
+		printf("rows = %d\ncols = %d\nSerial Time = %fs\nMPI Time = %fs\nSpeedup = %f\n", rows, cols, diff_serial, average, speedup);
 	}
 
 	processTerminate(matrix, vector, result, pResult, pMatrix, pVector);

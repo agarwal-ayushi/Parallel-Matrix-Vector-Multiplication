@@ -1,0 +1,13 @@
+
+NP =2
+Checkerboard matrix vector multiplication
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 1000	cols = 1000	Serial Time = 0.003894s	OpenMP Time = 0.006629s	Speedup = 0.587378
+
+NP =3
+Checkerboard matrix vector multiplication
+Results of parallel and Serial algorithm are not identical. Please check code
+rows = 1000	cols = 1000	Serial Time = 0.002998s	OpenMP Time = 0.009974s	Speedup = 0.300565
+
+NP =4
+Checkerboard matrix vector multiplication

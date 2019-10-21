@@ -172,7 +172,7 @@ int main(int argc, char* argv[]){
 	average /= 100;
 	if (pRank == 0) {
 		speedup = diff_serial/average;
-		printf("rows = %d\tcols = %d\tSerial Time = %fs\tOpenMP Time = %fs\tSpeedup = %f\n", rows, cols, diff_serial, average, speedup);
+		printf("rows = %d\ncols = %d\nSerial Time = %fs\nMPI Time = %fs\nSpeedup = %f\n", rows, cols, diff_serial, average, speedup);
 	}
 	processTerminate(matrix, vector, result, pResult, pMatrixRows);
 	MPI_Finalize();
