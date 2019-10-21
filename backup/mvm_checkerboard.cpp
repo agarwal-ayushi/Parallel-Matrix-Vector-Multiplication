@@ -13,11 +13,13 @@
 using namespace std;
 int pNum=0, pRank=0, gridId;
 
-void processTerminate(double* matrix, double* vector, double* result, double* pResult, double* pMatrix, double* pVector) {
-	if (pRank == 0){delete [] matrix; delete [] vector; delete [] result;}
-	delete [] pMatrix;
+void processTerminate(double* matrix, double* vector, double* result, double* pResult, double* pMatrixCols, double* pPartialRes, double* pFinal){
+	if (pRank == 0){delete [] matrix;delete [] vector;}
+	delete [] result;
+	delete [] pMatrixCols;
 	delete [] pResult;
-	delete [] pVector;
+	delete [] pPartialRes;
+	delete [] pFinal;
 }
 void inputInit(int &rows, int &cols, int &size){
 	cout << "Enter the size of the matrix and vector in the form of rows, cols\n";
@@ -63,14 +65,17 @@ void printVector(double* vector, int size) {
 	cout << endl;
 	cout.flush();
 }
-void processInit(double* &matrix, double* &vector, double* &pMatrix, double* &pVector, double* &result, double* &pResult, int rows, int cols, int size, int &pNumCols, int &pNumRows, int gridDims, int* gridSize, int* gridCoord, MPI_Comm checkerboard_comm) {
+void processInit(double* &matrix, double* &vector, double* &pMatrix, double* &pVector, double* &result, double* &pResult, int &rows, int &cols, int &size, int &pNumCols, int &pNumRows, int gridDims, int* gridSize, int* gridCoord, MPI_Comm checkerboard_comm) {
 	MPI_Bcast(&rows, 1, MPI_INT, 0, checkerboard_comm);
 	MPI_Bcast(&cols, 1, MPI_INT, 0, checkerboard_comm);
 	MPI_Bcast(&size, 1, MPI_INT, 0, checkerboard_comm);
 	int gridPeriod[gridDims];
 	MPI_Cart_get(checkerboard_comm, gridDims, gridSize, gridPeriod, gridCoord);
+	//if (gridId == 0) cout << gridCoord[0] << "\t" << gridCoord[1] << endl;
+	//if (gridId == 0) cout << gridSize[0] << "\t" << gridSize[1] << endl;
 	pNumRows = BLOCK_SIZE(gridCoord[0], gridSize[0], rows);
 	pNumCols = BLOCK_SIZE(gridCoord[1], gridSize[1], cols);
+	//MPI_Barrier(checkerboard_comm);	if (gridId == 4) cout << pNumRows << "\t" << pNumCols << endl;
 	pMatrix = new double [pNumRows*pNumCols];
 	pVector = new double [pNumCols];
 	pResult = new double[pNumRows];
@@ -81,7 +86,10 @@ void processInit(double* &matrix, double* &vector, double* &pMatrix, double* &pV
 		vector = new double [size];
 		matrix = new double [rows*cols];
 		result = new double [rows];
+
 		randomInit(matrix, vector, rows, cols, size);
+		//printMatrix(matrix, rows, cols);
+		//printVector(vector, size);
 	}
 }
 void matrixDistribution(double* matrix, double* pMatrix, int rows, int cols , int pNumRows, int pNumCols, int gridDims, int* gridSize, int* gridCoord, MPI_Comm checkerboard_comm) {
@@ -95,7 +103,9 @@ void matrixDistribution(double* matrix, double* pMatrix, int rows, int cols , in
 			if (gridId == 0){
 				for (int r = 0; r < cols; r++) {
 					oneRow[r] = matrix[(i*localRows + j)*cols + r];
+					//cout << oneRow[r] << "\t" ;
 				}
+				//cout << "\n";
 			}
 			for (int k = 0; k < gridSize[1]; k++){
 				coords[1] = k;
@@ -122,7 +132,9 @@ void matrixDistribution(double* matrix, double* pMatrix, int rows, int cols , in
 			}
 		}
 	}
-	delete [] oneRow;
+	MPI_Barrier(checkerboard_comm);
+	//if (gridId == 2) printMatrix(pMatrix, pNumRows, pNumCols);
+		delete [] oneRow;
 }
 void vectorDistribution(double* vector, double* pVector, int rows, int cols, int pNumCols, int gridDims, int* gridSize, int* gridCoord, MPI_Comm checkerboard_comm, MPI_Comm row_comm, MPI_Comm col_comm){
 	int coords_src[gridDims], coords_dest[gridDims], src_id, dest_id;
@@ -138,28 +150,39 @@ void vectorDistribution(double* vector, double* pVector, int rows, int cols, int
 				pSendInd[i] = pSendInd[i-1] + pSendNum[i-1];
 				pSendNum[i] = BLOCK_SIZE(i, gridSize[0], cols);
 			}
+			if (gridId == 0) {
+				for (int i = 0; i < gridSize[0]; i++){
+					//cout << pSendNum[i] << "\t" << pSendInd[i] << endl;
+					cout.flush();
+				}
+			}
 			int cRank;
 			MPI_Comm_rank(col_comm, &cRank);
 			double* pTempVector = new double [pSendNum[cRank]];
 			MPI_Scatterv(vector, pSendNum, pSendInd, MPI_DOUBLE, pTempVector, pSendNum[cRank], MPI_DOUBLE, 0, col_comm);
-			coords_dest[0] = gridCoord[1];
-			coords_dest[1] = gridCoord[0];
-			MPI_Cart_rank(checkerboard_comm, coords_dest, &dest_id);
-			if (gridCoord[0] == 0) {
-				for (int i =0; i < pNumCols; i++) {
-					pVector[i] = pTempVector[i];
+			if (gridId == 12) {
+				for (int i = 0; i < pSendNum[3]; i++){
+					//cout << pTempVector[i] <<"\t";
 				}
-			} else MPI_Send(pTempVector, pSendNum[cRank], MPI_DOUBLE, dest_id, 0, checkerboard_comm);
+				//cout << "cRank = " << cRank << endl;
+				cout.flush();
+			}
+			coords_dest[0] = gridCoord[1]; coords_dest[1] = gridCoord[0];
+			MPI_Cart_rank(checkerboard_comm, coords_dest, &dest_id);
+			MPI_Send(pTempVector, pSendNum[cRank], MPI_DOUBLE, dest_id, 0, checkerboard_comm);
 			delete [] pSendNum;
 			delete [] pSendInd;
 			delete [] pTempVector;
-		} else if (gridCoord[0] == 0){
+		}
+		if (gridCoord[0] == 0){
 			coords_src[0] = gridCoord[1]; coords_src[1] = gridCoord[0];
 			MPI_Cart_rank(checkerboard_comm, coords_src, &src_id);
 			MPI_Recv(pVector, pNumCols, MPI_DOUBLE, src_id, 0, checkerboard_comm, &status);
+			//MPI_Bcast(pVector, pNumCols, MPI_DOUBLE, gridId, col_comm);
 		}
 	} else {
 		if (gridCoord[0] == 0) {
+			//if (gridId == 0 ) {cout << gridSize[1] << "\tGrid unequal" << endl;}
 			int* pSendNum = new int [gridSize[1]];
 			int* pSendInd = new int [gridSize[1]];
 			pSendNum[0] = BLOCK_SIZE(0, gridSize[1], cols);
@@ -167,6 +190,12 @@ void vectorDistribution(double* vector, double* pVector, int rows, int cols, int
 			for (int i = 0; i < gridSize[1]; i++) {
 				pSendInd[i] = pSendInd[i-1] + pSendNum[i-1];
 				pSendNum[i] = BLOCK_SIZE(i, gridSize[1], cols);;
+			}
+			if (gridId == 1) {
+				for (int i = 0; i < gridSize[1]; i++){
+					//cout << pSendNum[i] << "\t" << pSendInd[i] << endl;
+					//cout.flush();
+				}
 			}
 			MPI_Scatterv(vector,  pSendNum, pSendInd, MPI_DOUBLE, pVector, pSendNum[gridId], MPI_DOUBLE, 0, row_comm);
 			delete [] pSendNum;
@@ -183,7 +212,7 @@ void checkerboardMatrixVectorMul(double* pMatrix,double* pVector,int pNumRows,in
 		}
 	}
 }
-void resultGather(double* result, double* pResult, int rows, int pNumRows, int pNumCols, int* gridSize, int* gridCoord, MPI_Comm row_comm, MPI_Comm col_comm) {
+void resultGather(double* result, double* pResult, int rows, int pNumRows, int pNumCols, int* gridSize, int* gridCoord, MPI_Comm row_comm, MPI_Comm col_comm, MPI_Comm checkerboard_comm) {
 	if (gridCoord[1] == 0) {
 		MPI_Reduce(MPI_IN_PLACE, pResult, pNumRows, MPI_DOUBLE, MPI_SUM, 0, row_comm);
 	} else {
@@ -198,6 +227,11 @@ void resultGather(double* result, double* pResult, int rows, int pNumRows, int p
 			pReceiveNum[i] = BLOCK_SIZE(i, gridSize[0], rows);
 			pReceiveInd[i] = pReceiveInd[i-1] + pReceiveNum[i-1];
 		}
+		if (gridId == 0) {
+			for (int i = 0; i < gridSize[0]; i++){
+				//cout << pReceiveNum[i] << "\t" << pReceiveInd[i] << endl;
+			}
+		}
 		MPI_Gatherv(pResult, pNumRows, MPI_DOUBLE, result, pReceiveNum, pReceiveInd, MPI_DOUBLE, 0, col_comm);
 		delete [] pReceiveInd;
 		delete [] pReceiveNum;
@@ -211,72 +245,82 @@ void matrixVectorMulSerial(double* result, double* matrix, double* vector, int r
 		}
 	}
 }
-void testResult(double* matrix, double* vector, double* result, int rows, int cols, double &diff_serial) {
-	int equal = 0;
-	double* serialResult = new double [rows];
-	struct timespec start_serial, end_serial;
-	clock_gettime(CLOCK_MONOTONIC_RAW, &start_serial);
-	matrixVectorMulSerial(serialResult, matrix, vector, rows, cols);
-	clock_gettime(CLOCK_MONOTONIC_RAW, &end_serial);
-	diff_serial = double((end_serial.tv_sec - start_serial.tv_sec) + (end_serial.tv_nsec - start_serial.tv_nsec)/1000000000.0);
-	for (int i = 0; i < rows; i++) {
-		if (result[i] != serialResult[i]) equal = 1;
+void testResult(double* matrix, double* vector, double* result, int rows, int cols) {
+	if (pRank == 0) {
+		int equal = 0;
+		double* serialResult = new double [rows];
+		matrixVectorMulSerial(serialResult, matrix, vector, rows, cols);
+		for (int i = 0; i < rows; i++) {
+			if (result[i] != serialResult[i]) equal = 1;
+		}
+		if (equal == 1) printf("Results of parallel and Serial algorithm are not identical. Please check code\n");
+		else printf("The result of Serial and Parallel Algorithm are the same. Good Job! \n ");
+		delete [] serialResult;
 	}
-	if (equal == 1) printf("Results of parallel and Serial algorithm are not identical. Please check code\n");
-	else printf("The result of Serial and Parallel Algorithm are the same. Good Job! \n ");
-	delete [] serialResult;
 }
 int main(int argc, char* argv[]){
 	int rows, cols, size, pNumCols, pNumRows;
 	double *matrix,*vector,*result, *pResult, *pMatrix, *pVector;
  	double start, end;
-	double diff_parallel=0.0, diff_serial=0.0, speedup=0.0, average = 0.0;
+	double diff_parallel=0.0, diff_serial=0.0, speedup=0.0;
 
 	MPI_Init(&argc, &argv);
 	rows = stoi(argv[1]); cols = stoi(argv[2]); size = stoi(argv[3]);
 
 	MPI_Comm_size(MPI_COMM_WORLD, &pNum);
 	MPI_Comm_rank(MPI_COMM_WORLD, &pRank);
-
+	if ((size != cols) || (size < pNum)) {
+		if (pRank == 0) cout << "The input vector is incompatible with the matrix. Or The size of vector is less than number of processes. Please correct input\n";
+		exit(1);
+	}
 	if (pRank == 0) {
 		printf("Checkerboard matrix vector multiplication\n");
-		if ((size != cols) || (size < pNum)) {
-			cout << "The input vector is incompatible with the matrix. Or The size of vector is less than number of processes. Please correct input\n";
-			exit(1);
-		}
 	}
 	//Creating the new communicator for reading checkerboard matrix
 	int gridDims=2; int gridSize[gridDims], periodic[gridDims], gridCoord[gridDims];
 	MPI_Comm checkerboard_comm;
-	MPI_Comm row_comm, col_comm; // Row and Column Commnicators for communicating in one row or column of the grid
-
-	gridSize[0] = 0; gridSize[1] = 0; periodic[0] = periodic[1] =0; // No wrap-around in the processor grid
-	MPI_Dims_create(pNum, gridDims, gridSize); //returns grid size like 4x4 using dimensions.
+	MPI_Comm row_comm, col_comm;
+	gridSize[0] = 0; gridSize[1] = 0; periodic[0] = periodic[1] =0;
+	MPI_Dims_create(pNum, gridDims, gridSize);
   MPI_Cart_create(MPI_COMM_WORLD, gridDims, gridSize, periodic, 1, &checkerboard_comm);
 	MPI_Comm_rank(checkerboard_comm, &gridId);
 	MPI_Comm_size(checkerboard_comm, &pNum);
 	processInit(matrix, vector, pMatrix, pVector, result, pResult, rows, cols, size, pNumCols, pNumRows, gridDims, gridSize, gridCoord, checkerboard_comm);
+	MPI_Barrier(MPI_COMM_WORLD);
+	start = MPI_Wtime();
+	matrixDistribution(matrix,pMatrix, rows, cols, pNumRows, pNumCols, gridDims, gridSize, gridCoord, checkerboard_comm);
 	MPI_Comm_split(checkerboard_comm, gridCoord[0], gridCoord[1], &row_comm);
 	MPI_Comm_split(checkerboard_comm, gridCoord[1], gridCoord[0], &col_comm);
-	for (int i = 0; i < 100; i++) {
-		diff_parallel = 0.0;
-		start = MPI_Wtime();
-		matrixDistribution(matrix,pMatrix, rows, cols, pNumRows, pNumCols, gridDims, gridSize, gridCoord, checkerboard_comm);
-		vectorDistribution(vector, pVector, rows, cols, pNumCols, gridDims, gridSize, gridCoord, checkerboard_comm, row_comm, col_comm);
-		checkerboardMatrixVectorMul(pMatrix, pVector, pNumRows, pNumCols, pResult);
-		resultGather(result, pResult, rows, pNumRows, pNumCols, gridSize, gridCoord, row_comm, col_comm);
-		end = MPI_Wtime();
-		diff_parallel = end - start;
-		average += diff_parallel;
-	}
-	average /= 100;
-	if (gridId == 0) testResult(matrix, vector, result, rows, cols, diff_serial);
+	vectorDistribution(vector, pVector, rows, cols, pNumCols, gridDims, gridSize, gridCoord, checkerboard_comm, row_comm, col_comm);
+	checkerboardMatrixVectorMul(pMatrix, pVector, pNumRows, pNumCols, pResult);
+	resultGather(result, pResult, rows, pNumRows, pNumCols, gridSize, gridCoord, row_comm, col_comm, checkerboard_comm);
+	end = MPI_Wtime();
+	diff_parallel = end - start;
+	if (gridId == 0) testResult(matrix, vector, result, rows, cols);
+	//if (pRank == 7) { cout << "Rows = \t" << pNumCols << endl;}
 	if (gridId == 0) {
-		speedup = diff_serial/average;
-		printf("rows = %d\tcols = %d\tSerial Time = %fs\tOpenMP Time = %fs\tSpeedup = %f\n", rows, cols, diff_serial, average, speedup);
+		printf ("Duration of parallel algorithm =%f\n", diff_parallel);
+		//printMatrix(matrix, rows, cols);
+		//printVector(vector, size);
 	}
-
-	processTerminate(matrix, vector, result, pResult, pMatrix, pVector);
+	//MPI_Barrier(MPI_COMM_WORLD);
+	//if (pRank == 0) {
+	//	//printMatrix(pMatrixCols, rows, pNumCols);
+	//	//printVector(pVector, pNumCols);
+	//	printVector(pResult, rows);
+	//	printVector(pPartialRes, pNumRows*pNum);
+	//	printVector(pFinal, pNumRows);
+	//}
+	//MPI_Barrier(MPI_COMM_WORLD);
+	//if (pRank == 1) {
+	//	printVector(pResult, rows);
+	//	printVector(pPartialRes, pNumRows*pNum);
+	//	printVector(pFinal, pNumRows);
+	//}
+	//
+	//MPI_Barrier(MPI_COMM_WORLD);
+	//processTerminate(matrix, vector, result, pResult, pVector);
+	//cout << pNum << "\t" << pRank << "\n";
 	MPI_Finalize();
   return 0;
 }

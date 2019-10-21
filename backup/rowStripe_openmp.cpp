@@ -106,7 +106,7 @@ int main(int argc, char* argv[]){
 	}
 	struct timespec start_serial, end_serial;
 	double start, end;
-	double diff_parallel=0.0, diff_serial=0.0, speedup=0.0, average = 0.0;
+	double diff_parallel=0.0, diff_serial=0.0, speedup=0.0;
 	double* matrix = new double [rows*cols];
 	double *vector = new double[size];
 	double *result = new double[rows];
@@ -120,21 +120,15 @@ int main(int argc, char* argv[]){
 
 	diff_serial = double((end_serial.tv_sec - start_serial.tv_sec) + (end_serial.tv_nsec - start_serial.tv_nsec)/1000000000.0);
 	//OpenMP normal multiplication timing
-	for (int i = 0; i < 100; i++) {
-		diff_parallel = 0.0;
-		start = omp_get_wtime();
-		matrixVectorMulRowOpenMP(result,matrix, vector, rows, cols);
-		end = omp_get_wtime();
-		diff_parallel = end - start;
-		average += diff_parallel;
-	}
-	average /= 100;
+	start = omp_get_wtime();
+	matrixVectorMulRowOpenMP(result,matrix, vector, rows, cols);
+	end = omp_get_wtime();
+	diff_parallel = end - start;
 	testResult(matrix, vector, result, rows, cols);
 
 	//speedup Serial vs OpenMP
-	speedup = diff_serial/average;
-	printf("rows = %d\tcols = %d\tSerial Time = %fs\tOpenMP Time = %fs\tSpeedup = %f\n", rows, cols, diff_serial, average, speedup);
-	//printf("%f\n", diff_parallel);
+	speedup = diff_serial/diff_parallel;
+	printf("rows = %d\tcols = %d\tSerial Time = %fs\tOpenMP Time = %fs\tSpeedup = %f\n", rows, cols, diff_serial, diff_parallel, speedup);
 	processTerminate(matrix, vector, result);
   return 0;
 }

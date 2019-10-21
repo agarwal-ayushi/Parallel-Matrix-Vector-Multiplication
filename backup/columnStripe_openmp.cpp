@@ -63,20 +63,23 @@ void processTerminate(double* matrix, double* vector, double* result){
 	delete [] vector;
 	delete [] result;
 }
-void matrixVectorMulRowOpenMP(double* result, double* matrix, double* vector, int rowCount, int colCount){
-  int i, j;
-	for (i = 0; i < rowCount; i++) {
-		result[i] = 0;
+void matrixVectorMulColOpenMP(double* result, double* matrix, double* vector, int rowCount, int colCount){
+  int i, j; double localResult=0.0;
+	for (i = 0; i < rowCount; i++){
+		result[i] = 0.0;
 	}
-  #pragma omp parallel default(none) shared(i, matrix, vector, result, rowCount, colCount) private(j)
+  #pragma omp parallel default(none) shared(j, matrix, vector, result, rowCount, colCount) private(i, localResult)
   {
-  #pragma omp for schedule(static)
   for (i = 0; i < rowCount; i++) {
+		localResult = 0.0;
+		#pragma omp for schedule(static)
 		for (j = 0; j < colCount; j++) {
-			result[i] += matrix[i*colCount+j]*vector[j];
+			localResult += matrix[i*colCount+j]*vector[j];
     }
+		#pragma omp critical
+		result[i] += localResult;
   }
-  }
+	}
 }
 void matrixVectorMulSerial(double* result, double* matrix, double* vector, int rowCount, int colCount) {
 	for (int i = 0; i < rowCount; i++) {
@@ -104,9 +107,10 @@ int main(int argc, char* argv[]){
 		cout << "The input vector is incompatible with the matrix, Please correct input\n";
 		exit(1);
 	}
-	struct timespec start_serial, end_serial;
+  struct timespec start_serial, end_serial;
 	double start, end;
-	double diff_parallel=0.0, diff_serial=0.0, speedup=0.0, average = 0.0;
+	double diff_parallel=0.0, diff_serial=0.0, speedup=0.0;
+	//inputInit(rows, cols, size);
 	double* matrix = new double [rows*cols];
 	double *vector = new double[size];
 	double *result = new double[rows];
@@ -117,24 +121,18 @@ int main(int argc, char* argv[]){
 	clock_gettime(CLOCK_MONOTONIC_RAW, &start_serial);
 	matrixVectorMulSerial(result, matrix, vector, rows, cols);
 	clock_gettime(CLOCK_MONOTONIC_RAW, &end_serial);
-
 	diff_serial = double((end_serial.tv_sec - start_serial.tv_sec) + (end_serial.tv_nsec - start_serial.tv_nsec)/1000000000.0);
+
 	//OpenMP normal multiplication timing
-	for (int i = 0; i < 100; i++) {
-		diff_parallel = 0.0;
-		start = omp_get_wtime();
-		matrixVectorMulRowOpenMP(result,matrix, vector, rows, cols);
-		end = omp_get_wtime();
-		diff_parallel = end - start;
-		average += diff_parallel;
-	}
-	average /= 100;
+	start = omp_get_wtime();
+	matrixVectorMulColOpenMP(result, matrix, vector, rows, cols);
+	end = omp_get_wtime();
+	diff_parallel = end - start;
 	testResult(matrix, vector, result, rows, cols);
 
 	//speedup Serial vs OpenMP
-	speedup = diff_serial/average;
-	printf("rows = %d\tcols = %d\tSerial Time = %fs\tOpenMP Time = %fs\tSpeedup = %f\n", rows, cols, diff_serial, average, speedup);
-	//printf("%f\n", diff_parallel);
+	speedup = diff_serial/diff_parallel;
+	printf("rows = %d\tcols = %d\tSerial Time = %fs\tOpenMP Time = %fs\tSpeedup = %f\n", rows, cols, diff_serial, diff_parallel, speedup);
 	processTerminate(matrix, vector, result);
   return 0;
 }

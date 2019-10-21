@@ -1,1 +1,10 @@
-100	100	100	0.000057
+
+OMP_NUM_THREADS =1
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 100000	cols = 10000	Serial Time = 2.899083s	OpenMP Time = 16.337954s	Speedup = 0.177445
+
+OMP_NUM_THREADS =2
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 100000	cols = 10000	Serial Time = 3.214660s	OpenMP Time = 16.691433s	Speedup = 0.192593
+
+OMP_NUM_THREADS =3
