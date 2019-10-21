@@ -131,7 +131,7 @@ while read line; do
 	i=$((i+1))
 done < temp_col.txt
 
-sed -n -e '/Checkerboard/,/\\n/ p' results_mpi.txt | grep "OpenMP Time" > temp_check.txt
+sed -n -e '/Checkerboard/,/\\n/ p' results_mpi.txt | grep "MPI Time" > temp_check.txt
 set i = 1
 IFS="="
 while read line; do
