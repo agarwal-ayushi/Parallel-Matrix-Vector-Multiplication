@@ -1,3 +1,3 @@
 #!/bin/bash
-sh report.sh
-./plot.sh
+sh scripts/report.sh
+./srcipts/plot.sh

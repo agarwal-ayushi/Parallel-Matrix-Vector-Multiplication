@@ -1,9 +1,0 @@
-#threads = 1
-#threads = 2
-#threads = 4
-#threads = 6
-#threads = 8
-#threads = 16
-#threads = 32
-#threads = 40
-#threads = 100

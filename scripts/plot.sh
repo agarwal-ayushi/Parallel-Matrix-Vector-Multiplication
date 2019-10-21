@@ -151,4 +151,4 @@ done < temp_check.txt
 
 paste <(awk '{print $1"	"}' loc1.dat ) <(awk '{print $1"	"}' loc2.dat ) <(awk '{print $1"	" }' loc5.dat ) <(awk '{print $1"	" }' loc3.dat ) <(awk '{print $1"	" }' loc6.dat ) <(awk '{print $1}' loc4.dat ) <(awk '{print $1"		" }' loc7.dat ) >>result_mpi.dat
 rm -f loc5.dat loc6.dat loc7.dat loc3.dat loc1.dat loc2.dat loc4.dat temp.txt temp_row.txt temp_col.txt temp_check.txt
-gnuplot -c loc.plt
+gnuplot -c scripts/loc.plt
