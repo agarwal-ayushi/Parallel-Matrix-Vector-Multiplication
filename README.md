@@ -27,3 +27,5 @@ FUNCTIONAL_MODE
 `sh make.sh`
 - This will first make all the files present in the `src/`
 - The results would be either be in the form of graphs or a report according to the FUNCTIONAL_MODE seleted. 
+
+### Each code also contains a validation step where the output of both parallel and serial implementation of MVM are compared. An error is reported if the results don't match. 
