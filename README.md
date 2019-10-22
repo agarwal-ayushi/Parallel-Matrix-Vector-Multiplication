@@ -9,15 +9,19 @@ To run, please do the following:
 
 Please set the following ENV variables on the terminal where you would be running the script.
 If you're using bash shell:
-1. export rows=<number of matrix rows>
-2. export cols=<number of matrix cols>
-3. export proc=<number of processes>
-4. export FUNCTIONAL_MODE=<As Below>
+1. export rows=\<number of matrix rows\>
+2. export cols=\<number of matrix cols\>
+3. export proc=\<number of processes\>
+4. export FUNCTIONAL_MODE=\<As Below\>
 
 FUNCTIONAL_MODE
+
 	0 => Output the graphs for different number of processes (which can be added in `scripts/report.sh` file)
+	
 	1 => Use Row-wise method to calculate matrix-vector Multiplication
+	
 	2 => Use Column-wise method to calculate matrix-vector Multiplication
+	
 	3 => Use Checkerboard Method to calculate matrix-vector Multiplication
 
 `sh make.sh`
