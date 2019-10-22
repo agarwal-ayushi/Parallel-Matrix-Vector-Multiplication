@@ -7,7 +7,19 @@ This repository contains the parallel Open MPI and OpenMP implementation of Matr
 
 To run, please do the following:
 
+Please set the following ENV variables on the terminal where you would be running the script.
+If you're using bash shell:
+1. export rows=<number of matrix rows>
+2. export cols=<number of matrix cols>
+3. export proc=<number of processes>
+4. export FUNCTIONAL_MODE=<As Below>
+
+FUNCTIONAL_MODE
+	0 => Output the graphs for different number of processes (which can be added in `scripts/report.sh` file)
+	1 => Use Row-wise method to calculate matrix-vector Multiplication
+	2 => Use Column-wise method to calculate matrix-vector Multiplication
+	3 => Use Checkerboard Method to calculate matrix-vector Multiplication
+
 `sh make.sh`
 - This will first make all the files present in the `src/`
-- Then a report is generated for OpenMP and MPI separately
-- Then you can plot graph for OpenMP and MPI speedup obtained vs Serial implementation and as the number of processes is increased
+- The results would be either be in the form of graphs or a report according to the FUNCTIONAL_MODE seleted. 
