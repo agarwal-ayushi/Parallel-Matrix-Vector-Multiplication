@@ -1,0 +1,250 @@
+Matrix Size = 10000 x 10000 
+Vector Size = 10000 x 1
+Row-Wise Striped Matrix-Vector Multiplication with OpenMP
+
+
+OMP_NUM_THREADS =1
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321938
+OpenMP Time = 0.333374
+Speedup = 0.965698
+
+OMP_NUM_THREADS =2
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.322099
+OpenMP Time = 0.185004
+Speedup = 1.741035
+
+OMP_NUM_THREADS =3
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321604
+OpenMP Time = 0.132777
+Speedup = 2.422130
+
+OMP_NUM_THREADS =4
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.322074
+OpenMP Time = 0.100172
+Speedup = 3.215218
+
+OMP_NUM_THREADS =8
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.322073
+OpenMP Time = 0.055418
+Speedup = 5.811736
+
+OMP_NUM_THREADS =16
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321293
+OpenMP Time = 0.033045
+Speedup = 9.722846
+
+OMP_NUM_THREADS =20
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.322045
+OpenMP Time = 0.027900
+Speedup = 11.543002
+
+OMP_NUM_THREADS =25
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321476
+OpenMP Time = 0.037935
+Speedup = 8.474311
+
+OMP_NUM_THREADS =32
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321858
+OpenMP Time = 0.030333
+Speedup = 10.610760
+
+OMP_NUM_THREADS =40
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.323450
+OpenMP Time = 0.026936
+Speedup = 12.008200
+
+Column-Wise Striped Matrix-Vector Multiplication with OpenMP
+
+
+OMP_NUM_THREADS =1
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321795s
+ColOpenMP Time = 0.304181s
+Speedup = 1.057904
+
+OMP_NUM_THREADS =2
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321930s
+ColOpenMP Time = 0.169064s
+Speedup = 1.904197
+
+OMP_NUM_THREADS =3
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321329s
+ColOpenMP Time = 0.126419s
+Speedup = 2.541781
+
+OMP_NUM_THREADS =4
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321364s
+ColOpenMP Time = 0.107588s
+Speedup = 2.987004
+
+OMP_NUM_THREADS =8
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321531s
+ColOpenMP Time = 0.092136s
+Speedup = 3.489729
+
+OMP_NUM_THREADS =16
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.322058s
+ColOpenMP Time = 0.138135s
+Speedup = 2.331467
+
+OMP_NUM_THREADS =20
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321843s
+ColOpenMP Time = 0.169925s
+Speedup = 1.894029
+
+OMP_NUM_THREADS =25
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.322027s
+ColOpenMP Time = 0.203096s
+Speedup = 1.585592
+
+OMP_NUM_THREADS =32
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.322409s
+ColOpenMP Time = 0.244671s
+Speedup = 1.317724
+
+OMP_NUM_THREADS =40
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321902s
+ColOpenMP Time = 0.299936s
+Speedup = 1.073236
+
+Checkerboard Matrix-Vector Multiplication with OpenMP
+ 
+
+OMP_NUM_THREADS =1
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321452s
+OpenMP Time = 1.482546s
+Speedup = 0.216824
+
+OMP_NUM_THREADS =2
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321763s
+OpenMP Time = 0.745312s
+Speedup = 0.431716
+
+OMP_NUM_THREADS =3
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321439s
+OpenMP Time = 0.523285s
+Speedup = 0.614271
+
+OMP_NUM_THREADS =4
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321753s
+OpenMP Time = 0.424555s
+Speedup = 0.757858
+
+OMP_NUM_THREADS =8
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321633s
+OpenMP Time = 0.225861s
+Speedup = 1.424030
+
+OMP_NUM_THREADS =16
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.321632s
+OpenMP Time = 0.130455s
+Speedup = 2.465466
+
+OMP_NUM_THREADS =20
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.322105s
+OpenMP Time = 0.135541s
+Speedup = 2.376439
+
+OMP_NUM_THREADS =25
+The result of Serial and Parallel Algorithm are the same. Good Job! 
+ rows = 10000
+cols = 10000
+Serial Time = 0.343886s
+OpenMP Time = 0.132361s
+Speedup = 2.598092
+
+OMP_NUM_THREADS =32
+Results of parallel and Serial algorithm are not identical. Please check code
+rows = 10000
+cols = 10000
+Serial Time = 0.322153s
+OpenMP Time = 0.120993s
+Speedup = 2.662577
+
+OMP_NUM_THREADS =40
+Results of parallel and Serial algorithm are not identical. Please check code
+rows = 10000
+cols = 10000
+Serial Time = 0.330270s
+OpenMP Time = 0.115455s
+Speedup = 2.860588
