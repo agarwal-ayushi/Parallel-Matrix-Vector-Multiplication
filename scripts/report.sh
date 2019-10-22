@@ -1,11 +1,12 @@
 #!/bin/bash
 make clean
 make all
-
-rows=10000
-cols=10000
-size=10000
-
+# rows=10000
+# cols=10000
+# size=10000
+size=$cols
+# $rows and $cols and $proc would be from ENV variables.
+# Please make sure you've set the ENV variables on the terminal running the scripts
 rm -rf results_openmp.txt
 rm -rf results_mpi.txt
 {
